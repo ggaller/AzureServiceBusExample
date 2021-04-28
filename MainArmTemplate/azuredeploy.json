@@ -7,7 +7,7 @@
       "type": "String"
     },
     "storage_account_name": {
-      "defaultValue": "abcstorage",
+      "defaultValue": "abcstorageaccount",
       "type": "String"
     },
     "function_app_name": {

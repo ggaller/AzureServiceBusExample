@@ -11,7 +11,7 @@ namespace UnitTests
     public class SendMessageTest
     {
         [TestMethod]
-        public void FrobiddenWithNullRule()
+        public void ForbiddenWithNullRule()
         {
             var result = (StatusCodeResult)Run(
                 new Message(), 
@@ -35,7 +35,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void FrobiddenWithNotAcceptedRule()
+        public void ForbiddenWithNotAcceptedRule()
         {
             var result = (StatusCodeResult)Run(
                 new Message {To = "gb" },

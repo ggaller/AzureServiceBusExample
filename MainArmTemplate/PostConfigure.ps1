@@ -2,7 +2,7 @@
 Param(
     [string] [Parameter(Mandatory=$true)] $SubscriptionName,
     [string] $ResourceGroupName = 'AbcApp',
-    [string] $StorageAccountName = 'abcappstorage',
+    [string] $StorageAccountName = 'abcstorageaccount',
     [string] $FunctionApp = 'AbcFunctionApp',
     [string] $Namespace = 'abcnamespace'
     )   
@@ -21,21 +21,21 @@ $storageContext = New-AzStorageContext -StorageAccountName $StorageAccountName -
 $table = Get-AzStorageTable -Name "inboxrules" -Context $storageContext 
 
 $partitionKey = "InboundRules"
-[Microsoft.WindowsAzure.Storage.Table.TableBatchOperation]$batchOperation = New-Object -TypeName Microsoft.WindowsAzure.Storage.Table.TableBatchOperation
+[Microsoft.Azure.Cosmos.Table.TableBatchOperation]$batchOperation = New-Object -TypeName Microsoft.Azure.Cosmos.Table.TableBatchOperation
 
 # Inset rules
-$entity = New-Object -TypeName Microsoft.WindowsAzure.Storage.Table.DynamicTableEntity -ArgumentList $partitionKey, "ru"
+$entity = New-Object -TypeName Microsoft.Azure.Cosmos.Table.DynamicTableEntity -ArgumentList $partitionKey, "ru"
 $entity.Properties.Add("Queues", "de,nl")
 $batchOperation.InsertOrReplace($entity)
 
-$entity = New-Object -TypeName Microsoft.WindowsAzure.Storage.Table.DynamicTableEntity -ArgumentList $partitionKey, "de"
+$entity = New-Object -TypeName Microsoft.Azure.Cosmos.Table.DynamicTableEntity -ArgumentList $partitionKey, "de"
 $entity.Properties.Add("Queues", "gb")
 $batchOperation.InsertOrReplace($entity)
 
-$entity = New-Object -TypeName Microsoft.WindowsAzure.Storage.Table.DynamicTableEntity -ArgumentList $partitionKey, "nl"
+$entity = New-Object -TypeName Microsoft.Azure.Cosmos.Table.DynamicTableEntity -ArgumentList $partitionKey, "nl"
 $batchOperation.InsertOrReplace($entity)
 
-#$table.CloudTable.ExecuteBatch($batchOperation)
+$table.CloudTable.ExecuteBatch($batchOperation)
 
 # Configure FunctionApp ConnectionStrings
 $namespaceConnections = Get-AzServiceBusKey -ResourceGroup $ResourceGroupName -Namespace $Namespace -Name "send-all"

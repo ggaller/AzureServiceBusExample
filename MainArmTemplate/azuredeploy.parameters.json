@@ -6,7 +6,7 @@
       "value": "abcnamespace"
     },
     "storage_account_name": {
-      "value": "abcappstorage"
+      "value": "abcstorageaccount"
     },
     "function_app_name": {
       "value": "AbcFunctionApp"
