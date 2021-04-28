@@ -45,7 +45,7 @@ namespace FunctionApp
         [FunctionName("SendMessage")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = "send")] [FromBody] Message message,
-            [Table("inboxrules", partitionKey:"", rowKey: "{From}")] InboxRule rule,
+            [Table("inboxrules", partitionKey:"InboundRules", rowKey: "{From}")] InboxRule rule,
             [ServiceBus("inbox-{To}", Connection = "ServiceBusConnectionString")] IAsyncCollector<Message> serviceBus,
             ILogger log)
         {

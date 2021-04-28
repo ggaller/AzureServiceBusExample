@@ -56,7 +56,7 @@ namespace MessageSender
                     {
                         WriteLine(description);
                         builder(message, ReadLine());
-                        if (!_appLifetime.ApplicationStopping.IsCancellationRequested)
+                        if (_appLifetime.ApplicationStopping.IsCancellationRequested)
                             return;
                     }
                     WriteLine("Sending...");
